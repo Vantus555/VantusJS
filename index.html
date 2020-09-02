@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .mydiv{
+            width: 100px;
+            height: 100px;
+            background-color: #cc1b1b;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body class="doby">
+    <div class="mydiv">
+    </div>
+    <div class="mydiv">
+    </div>
+    <script src="VantusJS.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    --><script>
+        //console.log($(".body"))
+        //let a = new VJS_Elem("body:didjkmm(1)");
+        V(".mydiv").event({
+            events: ['click'],
+            funcs: [
+                function(){
+                    V(this).css({
+                        'width' : '250px',
+                        'height' : '150px',
+                        'background-color' : '#00f'
+                    })
+                }
+            ]
+        });
+    </script>
+</body>
+</html>
