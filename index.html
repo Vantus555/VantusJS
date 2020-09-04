@@ -19,12 +19,13 @@
     <div class="mydiv">
     </div>
     <script src="VantusJS.js"></script>
+    <script src="VJS_Show.js"></script>
     <!--<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     --><script>
         //console.log($(".body"))
         //let a = new VJS_Elem("body:didjkmm(1)");
         V(".mydiv").event({
-            events: ['click'],
+            events: ['click', 'contextmenu'],
             funcs: [
                 function(){
                     V(this).css({
@@ -32,9 +33,15 @@
                         'height' : '150px',
                         'background-color' : '#00f'
                     })
+                }, 
+                function(){
+                    alert("Правая")
                 }
             ]
         });
+
+        V("div").show();
+
     </script>
 </body>
 </html>

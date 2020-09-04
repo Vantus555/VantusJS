@@ -41,13 +41,37 @@ class VantusJS {
         }
         return this;
     }
-    css(styles){
-        this.elems.forEach(element => {
-            for (var key in styles) {
-                element.style.setProperty(key, styles[key]);
-            }
-        });
+    css(styles = []){
+        if(styles.length != 1){
+            this.elems.forEach(element => {
+                for (var key in styles) {
+                    element.style.setProperty(key, styles[key]);
+                }
+            });
+        }
+        else{
+            let result = [];
+            this.elems.forEach(element => {
+                result.push(window.getComputedStyle(element).getPropertyValue(styles));
+            });
+            return result;
+        }
+
         return this;
+    }
+    attr(attrib, value=''){
+        if(value == ''){
+            let a = [];
+            this.elems.forEach(element => {
+                a.push(element.getAttribute(attrib));
+            });
+            return a;
+        }
+        else{
+            this.elems.forEach(element => {
+                element.setAttribute(attrib, value);
+            });
+        }
     }
 }
 
