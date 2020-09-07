@@ -18,9 +18,11 @@
     </div>
     <div class="mydiv">
     </div>
+    <div class="mydiv" id="res"></div>
     <script src="VantusJS.js"></script>
     <script src="VJS_Show.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!--
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     --><script>
         //console.log($(".body"))
         //let a = new VJS_Elem("body:didjkmm(1)");
@@ -40,7 +42,13 @@
             ]
         });
 
-        V("div").show();
+        console.log(V("div").css(['height', 'width']));
+        //V("div").show();
+
+        /*let aa = "sbngvxv";
+        console.log(typeof(aa) == "string");
+        let bb = ["key1", "keyy"];
+        console.log(bb instanceof Array);*/
 
     </script>
 </body>

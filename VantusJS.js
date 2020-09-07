@@ -41,23 +41,49 @@ class VantusJS {
         }
         return this;
     }
-    css(styles = []){
-        if(styles.length != 1){
-            this.elems.forEach(element => {
+    css(styles){
+        if(!(styles instanceof Array)){
+            if(typeof(styles) == "string"){
+                let res = [];
+                this.elems.forEach(element => {
+                    res.push(window.getComputedStyle(element).getPropertyValue(styles));
+                });
+                return res;
+            }
+            else{
                 for (var key in styles) {
                     element.style.setProperty(key, styles[key]);
                 }
-            });
+            }
         }
         else{
-            let result = [];
-            this.elems.forEach(element => {
-                result.push(window.getComputedStyle(element).getPropertyValue(styles));
-            });
-            return result;
-        }
+            let level1 = [];
 
-        return this;
+            this.elems.forEach(element => {
+                let level2 = new Map();
+                styles.forEach(prop => {
+                    level2.set(prop, window.getComputedStyle(element).getPropertyValue(prop));
+                });
+                let flag = true;
+                level1.forEach(element => {
+                    if(element == level2){
+                        flag = false;
+                        //break;
+                    }
+                });
+                if(flag)
+                    level1.push(level2);
+            });
+                
+            if(level1.length == 1){
+                if(level1[0].length == 1)
+                    return level1[0][0];
+                else
+                    return level1[0];
+            }
+            
+            return level1;
+        }
     }
     attr(attrib, value=''){
         if(value == ''){
