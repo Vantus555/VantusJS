@@ -1,11 +1,5 @@
 'use strict';
 
-let sttingsEvents = {
-    events: [],
-    funcs: [],
-    useCapture: false
-}
-
 function isEmpty(obj) {
     for (let key in obj) 
         return false;
@@ -15,7 +9,7 @@ function isEmpty(obj) {
 class VantusJS {
     constructor(query){
         this.elems = Array();
-        if('forEach' in query)
+        if(Array.isArray(query) || query instanceof NodeList)
             query.forEach(element => {
                 this.elems.push(element);
             });
@@ -23,7 +17,14 @@ class VantusJS {
             this.elems.push(query);
         }
     }
-    event(sttingsEvents){
+    get(i){
+        return this.elems[i];
+    }
+    event(sttingsEvents= {
+        events: [],
+        funcs: [],
+        useCapture: false
+    }){
         let i = 0;
         let j = 0;
         if (sttingsEvents.events.length != 0 && sttingsEvents.funcs.length != 0){
@@ -51,9 +52,11 @@ class VantusJS {
                 return res;
             }
             else{
-                for (var key in styles) {
-                    element.style.setProperty(key, styles[key]);
-                }
+                this.elems.forEach(element => {
+                    for (var key in styles) {
+                        element.style.setProperty(key, styles[key]);
+                    }
+                });
             }
         }
         else{
@@ -99,6 +102,7 @@ class VantusJS {
             });
         }
     }
+    
 }
 
 let V = (str) => {
