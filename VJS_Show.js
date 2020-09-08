@@ -37,14 +37,14 @@ VantusJS.prototype.show = function(settings)
                 }
         });
     }
-    if(direction == 'left'){
+    if(direction == 'right'){
         elems.array().forEach(element => {
             let opacity = stepOpacity;
             let Velem = V(element);
             Velem.css({'overflow' : 'hidden'});
             let width = parseFloat(Velem.css('width'));
             if(width!=0)
-                for (let i = 0; i <= height; i+=width/speed) {
+                for (let i = 0; i <= width; i+=width/speed) {
                     setTimeout(function(){
                         Velem.css({
                             'width': i + 'px',
@@ -55,7 +55,7 @@ VantusJS.prototype.show = function(settings)
                 }
         });
     }
-    if(direction == 'left_down'){
+    if(direction == 'right_down'){
         elems.array().forEach(element => {
             let opacity = stepOpacity;
             let Velem = V(element);
