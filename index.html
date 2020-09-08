@@ -7,8 +7,6 @@
     <style>
         .mydiv{
             display: none;
-            width: 100px;
-            height: 100px;
             background-color: #cc1b1b;
             margin: 50px;
         }
@@ -16,10 +14,12 @@
 </head>
 <body class="doby">
     <div class="mydiv">
+        ffffffffff
     </div>
     <div class="mydiv">
+        effffffff
     </div>
-    <div class="mydiv" id="res"></div>
+    <div class="mydiv" id="res">wesffffffffffffffff</div>
     <script src="VantusJS.js"></script>
     <script src="VJS_Show.js"></script>
     
@@ -44,11 +44,12 @@
         });*/
 
         //console.log(V("div").css(['height', 'width']));
-        /**/V("div").show({
+        V("div").show({
             speed: 1000,
-            display: "block"
+            display: "block",
+            direction: 'left_down'
         });
-        //$("div").show(10000, "linear");
+        /*$("div").show(10000, "linear");*/
 
         /*let aa = "sbngvxv";
         console.log(typeof(aa) == "string");
