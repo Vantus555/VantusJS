@@ -49,13 +49,21 @@ class VantusJS {
                 this.elems.forEach(element => {
                     res.push(window.getComputedStyle(element).getPropertyValue(styles));
                 });
-                return res;
+                if(res.length == 1)
+                    return res[0];
+                else return res;
             }
             else{
                 this.elems.forEach(element => {
-                    for (var key in styles) {
-                        element.style.setProperty(key, styles[key]);
-                    }
+                    if(!(styles instanceof Map))
+                        for (var key in styles) {
+                            element.style.setProperty(key, styles[key]);
+                        }
+                    else
+                        styles.forEach((value, key, map) =>{
+                            element.style.setProperty(key, value);
+                        });
+                        
                 });
             }
         }
@@ -103,6 +111,9 @@ class VantusJS {
         }
     }
     
+    array(){
+        return this.elems;
+    }
 }
 
 let V = (str) => {
