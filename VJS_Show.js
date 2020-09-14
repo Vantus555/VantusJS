@@ -7,7 +7,7 @@ let settingsShow = {
     speed: 0
 }
 
-VantusJS.prototype.show = function(settings)
+VantusJS.prototype.show = function(settings = {})
 {
     let elems = this;
     let display = settings.display ? settings.display : settingsShow.display;
@@ -18,65 +18,99 @@ VantusJS.prototype.show = function(settings)
     let stepOpacity = 1/(speed+1);
 
     elems.css({'display' : display});
-
-    if(direction == 'down'){
-        elems.array().forEach(element => {
-            let opacity = stepOpacity;
-            let Velem = V(element);
-            Velem.css({'overflow' : 'hidden'});
-            let height = parseFloat(Velem.css('height'));
-            if(height!=0)
-                for (let i = 0; i <= height; i+=height/speed) {
+    if(speed>0){
+        if(direction == 'down'){
+            elems.array().forEach(element => {
+                let opacity = stepOpacity;
+                let Velem = V(element);
+                Velem.css({'overflow' : 'hidden'});
+                let height = parseFloat(Velem.css('height'));
+                if(height!=0)
+                {
+                    for (let i = 0; i <= height; i+=height/speed) {
+                        setTimeout(function(){
+                            Velem.css({
+                                'height': i + 'px',
+                                'opacity': opacity
+                            });
+                            opacity += stepOpacity;
+                        }, speed/height * i);
+                    }
                     setTimeout(function(){
                         Velem.css({
-                            'height': i + 'px',
-                            'opacity': opacity
+                            'height': '',
+                            'opacity': '',
+                            'overflow' : ''
                         });
-                        opacity += stepOpacity;
-                    }, speed/height * i);
+                    }, speed);
                 }
-        });
-    }
-    if(direction == 'right'){
-        elems.array().forEach(element => {
-            let opacity = stepOpacity;
-            let Velem = V(element);
-            Velem.css({'overflow' : 'hidden'});
-            let width = parseFloat(Velem.css('width'));
-            if(width!=0)
-                for (let i = 0; i <= width; i+=width/speed) {
+            });
+        }
+        if(direction == 'right'){
+            elems.array().forEach(element => {
+                let opacity = stepOpacity;
+                let Velem = V(element);
+                Velem.css({'overflow' : 'hidden'});
+                let width = parseFloat(Velem.css('width'));
+                if(width!=0){
+                    for (let i = 0; i <= width; i+=width/speed) {
+                        setTimeout(function(){
+                            Velem.css({
+                                'width': i + 'px',
+                                'opacity': opacity
+                            });
+                            opacity += stepOpacity;
+                        }, speed/width * i);
+                    }
                     setTimeout(function(){
                         Velem.css({
-                            'width': i + 'px',
-                            'opacity': opacity
+                            'width': '',
+                            'opacity': '',
+                            'overflow' : ''
                         });
-                        opacity += stepOpacity;
-                    }, speed/width * i);
+                    }, speed);
                 }
-        });
-    }
-    if(direction == 'right_down'){
-        elems.array().forEach(element => {
-            let opacity = stepOpacity;
-            let Velem = V(element);
-            Velem.css({'overflow' : 'hidden'});
-            let height = parseFloat(Velem.css('height'));
-            let width = parseFloat(Velem.css('width'));
-            let stepWidth = width/speed;
-            let countWidth = stepWidth;
-            if(height!=0 && height!=0)
-                for (let i = 0; i <= height; i+=height/speed) {
+            });
+            
+        }
+        if(direction == 'right_down'){
+            elems.array().forEach(element => {
+                let opacity = stepOpacity;
+                let Velem = V(element);
+                Velem.css({'overflow' : 'hidden'});
+                let height = parseFloat(Velem.css('height'));
+                let width = parseFloat(Velem.css('width'));
+                let stepWidth = width/speed;
+                let countWidth = stepWidth;
+                if(height!=0 && height!=0)
+                {
+                    for (let i = 0; i <= height; i+=height/speed) {
+                        setTimeout(function(){
+                            Velem.css({
+                                'height': i + 'px',
+                                'width': countWidth + 'px',
+                                'opacity': opacity
+                            });
+                            opacity += stepOpacity;
+                            countWidth += stepWidth;
+                        }, speed/height * i);
+                    }
                     setTimeout(function(){
                         Velem.css({
-                            'height': i + 'px',
-                            'width': countWidth + 'px',
-                            'opacity': opacity
+                            'width': '',
+                            'height': '',
+                            'opacity': '',
+                            'overflow' : ''
                         });
-                        opacity += stepOpacity;
-                        countWidth += stepWidth;
-                    }, speed/height * i);
+                    }, speed);
                 }
-        });
+            });
+            Velem.css({
+                'height': '',
+                'width': '',
+                'opacity': ''
+            });
+        }
     }
 
 }
