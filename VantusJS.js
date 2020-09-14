@@ -51,7 +51,13 @@ class VantusJS {
                 });
                 if(res.length == 1)
                     return res[0];
-                else return res;
+                else {
+                    let set = new Set(res);
+                    if(set.size == 1)
+                        return Array.from(set)[0];
+                    else
+                        return res;
+                }
             }
             else{
                 this.elems.forEach(element => {
@@ -113,6 +119,52 @@ class VantusJS {
     
     array(){
         return this.elems;
+    }
+    
+    hasClass(search_class){
+        /*for (let i = 0; i < this.elems.length; i++) {
+            if(this.elems[i].classList.contains(search_class)){
+                return true;
+            }
+        }*/
+        if(this.elems[0].classList.contains(search_class)){
+            return true;
+        }
+        return false;
+    }
+
+    parent(){
+        return V(this.elems[0].parentElement);
+    }
+
+    findParent(search_class){
+        let elem = this.parent();
+        while(true){
+            if(!elem.isEmpty()){
+                if(elem.hasClass(search_class))
+                    return elem;
+                else elem = elem.parent();
+            }
+            else return false;
+        }
+    }
+
+    isEmpty(){
+        return (this.elems.length == 1 && this.elems[0] == null) ? true : false;
+    }
+
+    children(search_class = ''){
+        let htmlCollection = [].slice.call(this.elems[0].children);
+        if(search_class == '')
+            return V(htmlCollection);
+        else{
+            let arr = []
+            htmlCollection.forEach(element => {
+                if(V(element).hasClass(search_class))
+                    arr.push(element);
+            });
+            return V(arr);
+        }
     }
 }
 
