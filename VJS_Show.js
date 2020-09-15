@@ -23,6 +23,11 @@ VantusJS.prototype.hide = function(settings = {}){
             settings.display = 'none';
             this.show(settings);
         }
+        if(settings.direction == 'right'){
+            settings.direction = 'rightback';
+            settings.display = 'none';
+            this.show(settings);
+        }
     }
 }
 
@@ -130,6 +135,41 @@ VantusJS.prototype.show = function(settings = {})
                             'width': '',
                             'opacity': '',
                             'overflow' : ''
+                        });
+                    }, speed);
+                }
+            });
+        }
+        if(direction == 'rightback'){
+            elems.array().forEach(element => {
+                let opacity = 1;
+                let Velem = V(element);
+                Velem.css({'overflow' : 'hidden'});
+                let width = parseFloat(Velem.css('width'));
+                if(width!=0){
+                    let j = 0;
+                    for (let i = width; i >= 0; i-=width/speed) {
+                        setTimeout(function(){
+                            if(i == 0)
+                                Velem.css({
+                                    'width': i + 'px',
+                                    'opacity': opacity
+                                });
+                            else
+                                Velem.css({
+                                    'width': i + 'px',
+                                    'opacity': opacity,
+                                });
+                            opacity -= stepOpacity;
+                        }, speed/width * j);
+                        j += width/speed;
+                    }
+                    setTimeout(function(){
+                        Velem.css({
+                            'width': '',
+                            'opacity': '',
+                            'overflow' : '',
+                            'display' : ''
                         });
                     }, speed);
                 }
