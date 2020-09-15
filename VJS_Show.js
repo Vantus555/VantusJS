@@ -97,7 +97,7 @@ VantusJS.prototype.show = function(settings = {})
                             'opacity': '',
                             'overflow' : ''
                         });
-                        elems.css({'display' : display});
+                        elems.css({'display' : ''});
                     }, speed);
                 }
             });

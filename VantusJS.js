@@ -133,11 +133,23 @@ class VantusJS {
         return false;
     }
 
-    parent(){
-        return V(this.elems[0].parentElement);
+    parent(search_class = ''){
+        if(search_class == '')
+            return V(this.elems[0].parentElement);
+        else{
+            let elem = this.parent();
+            while(true){
+                if(!elem.isEmpty()){
+                    if(elem.hasClass(search_class))
+                        return elem;
+                    else elem = elem.parent();
+                }
+                else return false;
+            }
+        }
     }
 
-    findParent(search_class){
+    /*findParent(search_class){
         let elem = this.parent();
         while(true){
             if(!elem.isEmpty()){
@@ -147,7 +159,7 @@ class VantusJS {
             }
             else return false;
         }
-    }
+    }*/
 
     isEmpty(){
         return (this.elems.length == 1 && this.elems[0] == null) ? true : false;
