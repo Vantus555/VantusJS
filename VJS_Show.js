@@ -4,12 +4,12 @@ let settingsShow = {
     func: 'linear',
     direction: 'down',
     display: 'block', 
-    speed: 0
+    speed: 0,
+    width: 0
 }
 
 VantusJS.prototype.toggleShow = function(settings = {}){
-    let a  = this.css('display');
-    if(this.css('display') == 'none')
+    if(this.css('display') == 'none' || this.css('width') == '0px')
         this.show(settings);
     else this.hide(settings);
 }
@@ -38,6 +38,7 @@ VantusJS.prototype.show = function(settings = {})
     let direction = settings.direction ? settings.direction : settingsShow.direction;
     let speed = settings.speed ? settings.speed : settingsShow.speed;
     let func = settings.func ? settings.func : settingsShow.func;
+    let w = settings.width ? settings.width : settingsShow.width;
 
     let stepOpacity = 1/(speed+1);
     
@@ -112,7 +113,10 @@ VantusJS.prototype.show = function(settings = {})
                 let opacity = stepOpacity;
                 let Velem = V(element);
                 Velem.css({'overflow' : 'hidden'});
-                let width = parseFloat(Velem.css('width'));
+                let width;
+                if(w == 0)
+                    width = parseFloat(Velem.css('width'));
+                else width = w;
                 if(width!=0){
                     for (let i = 0; i <= width; i+=width/speed) {
                         setTimeout(function(){
@@ -131,11 +135,17 @@ VantusJS.prototype.show = function(settings = {})
                         }, speed/width * i);
                     }
                     setTimeout(function(){
-                        Velem.css({
-                            'width': '',
-                            'opacity': '',
-                            'overflow' : ''
-                        });
+                        if(w != 0)
+                            Velem.css({
+                                'opacity': '',
+                                'overflow' : ''
+                            });
+                        else
+                            Velem.css({
+                                'width': '',
+                                'opacity': '',
+                                'overflow' : ''
+                            });
                     }, speed);
                 }
             });
@@ -145,7 +155,10 @@ VantusJS.prototype.show = function(settings = {})
                 let opacity = 1;
                 let Velem = V(element);
                 Velem.css({'overflow' : 'hidden'});
-                let width = parseFloat(Velem.css('width'));
+                let width;
+                if(w == 0)
+                    width = parseFloat(Velem.css('width'));
+                else width = w;
                 if(width!=0){
                     let j = 0;
                     for (let i = width; i >= 0; i-=width/speed) {
