@@ -16,6 +16,7 @@ class VantusJS {
         else{
             this.elems.push(query);
         }
+        this.count = query.length;
     }
     get(i){
         return this.elems[i];
@@ -102,8 +103,8 @@ class VantusJS {
             return level1;
         }
     }
-    attr(attrib, value=''){
-        if(value == ''){
+    attr(attrib, value = ''){
+        if(value == '' && !(typeof value === 'number')){
             let a = [];
             this.elems.forEach(element => {
                 a.push(element.getAttribute(attrib));
@@ -115,6 +116,7 @@ class VantusJS {
                 element.setAttribute(attrib, value);
             });
         }
+        return this
     }
     
     array(){
@@ -167,18 +169,6 @@ class VantusJS {
         }
     }
 
-    /*findParent(search_class){
-        let elem = this.parent();
-        while(true){
-            if(!elem.isEmpty()){
-                if(elem.hasClass(search_class))
-                    return elem;
-                else elem = elem.parent();
-            }
-            else return false;
-        }
-    }*/
-
     isEmpty(){
         return (this.elems.length == 1 && this.elems[0] == null) ? true : false;
     }
@@ -196,6 +186,21 @@ class VantusJS {
             return V(arr);
         }
     }
+
+    put(what, how){
+        if(what != 0){
+            if(how == 'append')
+                this.elems.forEach(element => { element.append(what); });
+            if(how == 'prepend')
+                this.elems.forEach(element => { element.prepend(what); });
+            if(how == 'before')
+                this.elems.forEach(element => { element.before(what); });
+            if(how == 'after')
+                this.elems.forEach(element => { element.after(what); });
+            if(how == 'replace')
+                this.elems.forEach(element => { element.replaceWith(what); });
+        }
+    }
 }
 
 let V = (str) => {
@@ -203,7 +208,7 @@ let V = (str) => {
         let elems = document.querySelectorAll(str);
         if(elems.length)
             return new VantusJS(elems);
-        else alert('Не удалось найти элемент(ы): "' + str +'"');
+        else return new VantusJS([]);//alert('Не удалось найти элемент(ы): "' + str +'"');
     }
     else return new VantusJS(str);
 }
