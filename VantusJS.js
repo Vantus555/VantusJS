@@ -16,11 +16,17 @@ class VantusJS {
         else{
             this.elems.push(query);
         }
-        this.count = query.length;
+        this.count = this.elems.length;
     }
+    
     get(i){
+        return V(this.elems[i]);
+    }
+    
+    elem(i){
         return this.elems[i];
     }
+
     event(sttingsEvents= {
         events: [],
         funcs: [],
@@ -43,6 +49,13 @@ class VantusJS {
         }
         return this;
     }
+
+    click(){
+        this.elems.forEach(element => {
+            element.click();
+        });
+    }
+
     css(styles){
         if(!(styles instanceof Array)){
             if(typeof(styles) == "string"){
@@ -103,17 +116,20 @@ class VantusJS {
             return level1;
         }
     }
-    attr(attrib, value = ''){
-        if(value == '' && !(typeof value === 'number')){
+
+    attr(){
+        if(arguments.length == 1){
             let a = [];
             this.elems.forEach(element => {
-                a.push(element.getAttribute(attrib));
+                a.push(element.getAttribute(arguments[0]));
             });
             return a;
         }
-        else{
+        else if(arguments.length == 2) {
             this.elems.forEach(element => {
-                element.setAttribute(attrib, value);
+                if(arguments[1] != '')
+                    element.setAttribute(arguments[0], arguments[1]);
+                else element.removeAttribute(arguments[0]);
             });
         }
         return this
@@ -124,11 +140,6 @@ class VantusJS {
     }
     
     hasClass(search_class){
-        /*for (let i = 0; i < this.elems.length; i++) {
-            if(this.elems[i].classList.contains(search_class)){
-                return true;
-            }
-        }*/
         if(this.elems[0].classList.contains(search_class)){
             return true;
         }
@@ -157,15 +168,8 @@ class VantusJS {
         if(search_class == '')
             return V(this.elems[0].parentElement);
         else{
-            let elem = this.parent();
-            while(true){
-                if(!elem.isEmpty()){
-                    if(elem.hasClass(search_class))
-                        return elem;
-                    else elem = elem.parent();
-                }
-                else return false;
-            }
+            let parent = this.elems[0].closest(search_class)
+            return parent ? V(parent) : false;
         }
     }
 
@@ -174,14 +178,13 @@ class VantusJS {
     }
 
     children(search_class = ''){
-        let htmlCollection = [].slice.call(this.elems[0].children);
+        let htmlCollection = [].slice.call(this.elems[0].querySelectorAll(search_class));
         if(search_class == '')
             return V(htmlCollection);
         else{
             let arr = []
             htmlCollection.forEach(element => {
-                if(V(element).hasClass(search_class))
-                    arr.push(element);
+                arr.push(element);
             });
             return V(arr);
         }
@@ -201,6 +204,21 @@ class VantusJS {
                 this.elems.forEach(element => { element.replaceWith(what); });
         }
     }
+
+    forEach(callback){
+        this.elems.forEach(element => {
+            callback(V(element));
+        });
+    }
+
+    for(callback){
+        for (let i = 0; i < this.elems.length; i++) {
+            if(!callback(i, V(this.elems[i]), this.elems))
+                break;
+        }
+    }
+
+    
 }
 
 let V = (str) => {
