@@ -233,6 +233,12 @@ class VantusJS {
     prev() {
         return V(this.elems[0].previousElementSibling);
     }
+
+    val() {
+        if (arguments.length == 0)
+            return this.elems[0].value;
+        else this.elems[0].value = arguments[0];
+    }
 }
 
 let V = (str) => {
