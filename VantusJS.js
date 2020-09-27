@@ -226,6 +226,13 @@ class VantusJS {
         else this.elems[0].textContent = arguments[0];
     }
 
+    next() {
+        return V(this.elems[0].nextSibling);
+    }
+
+    prev() {
+        return V(this.elems[0].previousElementSibling);
+    }
 }
 
 let V = (str) => {
