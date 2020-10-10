@@ -30,24 +30,44 @@ class VantusJS {
     event(sttingsEvents = {
         events: [],
         funcs: [],
-        useCapture: false
+        useCapture: false,
+        elements: []
     }) {
-        let i = 0;
-        let j = 0;
-        if (sttingsEvents.events.length != 0 && sttingsEvents.funcs.length != 0) {
-            this.elems.forEach(elem => {
-                for (let count = 0; count < sttingsEvents.events.length; count++) {
-                    elem.addEventListener(sttingsEvents.events[i], sttingsEvents.funcs[j], sttingsEvents.useCapture);
-                    if (i < sttingsEvents.events.length - 1)
-                        i++;
-                    if (j < sttingsEvents.funcs.length - 1)
-                        j++;
-                }
-                j = 0;
-                i = 0;
-            });
+        if (!sttingsEvents.elements) {
+            let i = 0;
+            let j = 0;
+            if (sttingsEvents.events.length != 0 && sttingsEvents.funcs.length != 0) {
+                this.elems.forEach(elem => {
+                    for (let count = 0; count < sttingsEvents.events.length; count++) {
+                        elem.addEventListener(sttingsEvents.events[i], sttingsEvents.funcs[j], sttingsEvents.useCapture);
+                        if (i < sttingsEvents.events.length - 1)
+                            i++;
+                        if (j < sttingsEvents.funcs.length - 1)
+                            j++;
+                    }
+                    j = 0;
+                    i = 0;
+                });
+            }
+            return this;
         }
-        return this;
+        else {
+            this.event({
+                events: sttingsEvents.events,
+                funcs: [
+                    function (e) {
+                        let elem = V(this).children(sttingsEvents.elements);
+                        elem.array().forEach(element => {
+                            if (element == e.target) {
+                                sttingsEvents.funcs.forEach(func => {
+                                    func.bind(element)(e);
+                                });
+                            }
+                        });
+                    }
+                ]
+            })
+        }
     }
 
     click() {
@@ -123,7 +143,9 @@ class VantusJS {
             this.elems.forEach(element => {
                 a.push(element.getAttribute(arguments[0]));
             });
-            return a;
+            if (a.length == 1)
+                return a[0];
+            else return a;
         }
         else if (arguments.length == 2) {
             this.elems.forEach(element => {
@@ -204,6 +226,14 @@ class VantusJS {
                 this.elems.forEach(element => { element.after(what); });
             if (how == 'replace')
                 this.elems.forEach(element => { element.replaceWith(what); });
+            if (how == 'beforeBegin')
+                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
+            if (how == 'afterBegin')
+                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
+            if (how == 'beforeEnd')
+                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
+            if (how == 'afterEnd')
+                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
         }
     }
 
@@ -226,6 +256,18 @@ class VantusJS {
         else this.elems[0].textContent = arguments[0];
     }
 
+    html() {
+        if (arguments.length == 0)
+            return this.elems[0].innerHTML;
+        else this.elems[0].innerHTML = arguments[0];
+    }
+
+    val() {
+        if (arguments.length == 0)
+            return this.elems[0].value;
+        else this.elems[0].value = arguments[0];
+    }
+
     next() {
         return V(this.elems[0].nextSibling);
     }
@@ -234,10 +276,20 @@ class VantusJS {
         return V(this.elems[0].previousElementSibling);
     }
 
-    val() {
-        if (arguments.length == 0)
-            return this.elems[0].value;
-        else this.elems[0].value = arguments[0];
+    createElem(str) {
+        let elem = V(document.createElement('div'));
+        elem.html(str);
+        return new VantusJS(elem.html());
+    }
+
+    tagName() {
+        return this.elems[0].tagName;
+    }
+
+    remove() {
+        this.elems.forEach(element => {
+            element.remove();
+        });
     }
 }
 
