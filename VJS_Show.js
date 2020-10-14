@@ -1,4 +1,4 @@
-//import VantusJS from VantusJS.js 
+
 
 let settingsShow = {
     func: 'linear',
@@ -71,7 +71,6 @@ VantusJS.prototype.show = function (settings = {}) {
                             'opacity': '',
                             'overflow': ''
                         });
-                        //elems.css({'display' : display});
                     }, speed);
                 }
             });

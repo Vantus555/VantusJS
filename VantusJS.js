@@ -27,22 +27,22 @@ class VantusJS {
         return this.elems[i];
     }
 
-    event(sttingsEvents = {
+    event(settingsEvents = {
         events: [],
         funcs: [],
         useCapture: false,
         elements: []
     }) {
-        if (!sttingsEvents.elements) {
+        if (!settingsEvents.elements) {
             let i = 0;
             let j = 0;
-            if (sttingsEvents.events.length != 0 && sttingsEvents.funcs.length != 0) {
+            if (settingsEvents.events.length != 0 && settingsEvents.funcs.length != 0) {
                 this.elems.forEach(elem => {
-                    for (let count = 0; count < sttingsEvents.events.length; count++) {
-                        elem.addEventListener(sttingsEvents.events[i], sttingsEvents.funcs[j], sttingsEvents.useCapture);
-                        if (i < sttingsEvents.events.length - 1)
+                    for (let count = 0; count < settingsEvents.events.length; count++) {
+                        elem.addEventListener(settingsEvents.events[i], settingsEvents.funcs[j], settingsEvents.useCapture);
+                        if (i < settingsEvents.events.length - 1)
                             i++;
-                        if (j < sttingsEvents.funcs.length - 1)
+                        if (j < settingsEvents.funcs.length - 1)
                             j++;
                     }
                     j = 0;
@@ -53,13 +53,13 @@ class VantusJS {
         }
         else {
             this.event({
-                events: sttingsEvents.events,
+                events: settingsEvents.events,
                 funcs: [
                     function (e) {
-                        let elem = V(this).children(sttingsEvents.elements);
+                        let elem = V(this).children(settingsEvents.elements);
                         elem.array().forEach(element => {
                             if (element == e.target) {
-                                sttingsEvents.funcs.forEach(func => {
+                                settingsEvents.funcs.forEach(func => {
                                     func.bind(element)(e);
                                 });
                             }
@@ -119,7 +119,6 @@ class VantusJS {
                 level1.forEach(element => {
                     if (element == level2) {
                         flag = false;
-                        //break;
                     }
                 });
                 if (flag)
@@ -298,7 +297,7 @@ let V = (str) => {
         let elems = document.querySelectorAll(str);
         if (elems.length)
             return new VantusJS(elems);
-        else return new VantusJS([]);//alert('Не удалось найти элемент(ы): "' + str +'"');
+        else return new VantusJS([]);
     }
     else return new VantusJS(str);
 }
