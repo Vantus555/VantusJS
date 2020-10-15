@@ -63,29 +63,31 @@
         });
     }
 
-    V('.v-slider-margin .v-slider-margin-rb').event({
-        events: ['click'],
-        funcs: [
-            function () {
-                return rb(V(this));
-            }
-        ]
-    });
-    V('.v-slider-margin .v-slider-margin-lb').event({
-        events: ['click', 'load'],
-        funcs: [
-            function () {
-                return lb(V(this));
-            }
-        ]
-    });
-
-    let timerelement = V('.v-slider-margin .v-slider-margin-lb');
-
-    timerelement.forEach(element => {
-        setTimeout(function(){
-            return lb(element);
-        }, speed + speed/2);
+    this.forEach(element => {
+        let rbel = element.children('.v-slider-margin-rb');
+        let lbel = element.children('.v-slider-margin-lb');
+        rbel.event({
+            events: ['click'],
+            funcs: [
+                function () {
+                    return rb(rb);
+                }
+            ]
+        });
+        lbel.event({
+            events: ['click'],
+            funcs: [
+                function () {
+                    return lb(lb);
+                }
+            ]
+        });
+        rbel.forEach(el => {
+            this.timer = setTimeout(function(){
+                console.log(this.timer);
+                return rb(el);
+            }, speed + speed/2);
+        });
     });
     
 }
