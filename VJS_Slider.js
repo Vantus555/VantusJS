@@ -28,7 +28,7 @@
             ]
         });
     });
-
+    
     function rb(el) {
         el.attr('disabled', true);
         let active = el.parent('.v-slider-margin').children('.v-slider-margin-switches label');
@@ -56,7 +56,7 @@
                 else arr[arr.length - 1].click();
                 setTimeout(() => {
                     el.attr('disabled', false);
-                }, speed - speed/10);
+                }, speed + speed/10);
                 return false;
             }
             return true;
@@ -70,7 +70,7 @@
             events: ['click'],
             funcs: [
                 function () {
-                    return rb(rb);
+                    return rb(rbel);
                 }
             ]
         });
@@ -78,15 +78,15 @@
             events: ['click'],
             funcs: [
                 function () {
-                    return lb(lb);
+                    return lb(lbel);
                 }
             ]
         });
         rbel.forEach(el => {
-            this.timer = setTimeout(function(){
-                console.log(this.timer);
+            el.timer = setTimeout(function sliding(){
+                el.timer = setTimeout(sliding, speed*2);
                 return rb(el);
-            }, speed + speed/2);
+            }, speed*2);
         });
     });
     
