@@ -59,9 +59,16 @@ class VantusJS {
                         let elem = V(this).children(settingsEvents.elements);
                         elem.array().forEach(element => {
                             if (element == e.target) {
-                                settingsEvents.funcs.forEach(func => {
+                                let index = settingsEvents.events.indexOf(e.type);
+                                let funindex = settingsEvents.funcs[index];
+                                let lastindex = settingsEvents.funcs[settingsEvents.funcs.lemgth-1];
+                                if(funindex)
+                                    funindex.bind(element)(e);
+                                else
+                                    lastindex.bind(element)(e);
+                                /*settingsEvents.funcs.forEach(func => {
                                     func.bind(element)(e);
-                                });
+                                });*/
                             }
                         });
                     }
@@ -204,11 +211,13 @@ class VantusJS {
             return V(htmlCollection);
         }
         else {
-            let htmlCollection = [].slice.call(this.elems[0].querySelectorAll(search_class));
             let arr = []
-            htmlCollection.forEach(element => {
-                arr.push(element);
-            });
+            for (let i = 0; i < this.elems.length; i++) {
+                let htmlCollection = [].slice.call(this.elems[i].querySelectorAll(search_class));
+                htmlCollection.forEach(element => {
+                    arr.push(element);
+                });
+            }
             return V(arr);
         }
     }
@@ -268,10 +277,56 @@ class VantusJS {
     }
 
     next() {
+        let next = this.elems[0].nextSibling;
+        if(next == null)
+            return false;
         return V(this.elems[0].nextSibling);
     }
 
     prev() {
+        let prev = this.elems[0].previousSibling;
+        if(prev == null)
+            return false;
+        return V(this.elems[0].previousSibling);
+    }
+
+    nextAll() {
+        let next = this.next();
+        if(next == null)
+            return false;
+        let arr = [];
+        while (next){
+            arr = arr.concat(next.array());
+            next = next.next();
+        }
+        arr.reverse();
+        return V(arr);
+    }
+
+    prevAll() {
+        let prev = this.prev();
+        if(prev == null)
+            return false;
+        let arr = [];
+        while (prev){
+            arr = arr.concat(prev.array());
+            prev = prev.prev();
+        }
+        arr.reverse();
+        return V(arr);
+    }
+
+    nextElement() {
+        let next = this.elems[0].nextElementSibling;
+        if(prev == null)
+            return false;
+        return V(this.elems[0].nextElementSibling);
+    }
+
+    prevElement() {
+        let prev = this.elems[0].previousElementSibling;
+        if(prev == null)
+            return false;
         return V(this.elems[0].previousElementSibling);
     }
 

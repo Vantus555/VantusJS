@@ -8,13 +8,13 @@ let settingsShow = {
     width: 0
 }
 
-VantusJS.prototype.toggleShow = function (settings = {}) {
+; VantusJS.prototype.toggleShow = function (settings = {}) {
     if (this.css('display') == 'none' || this.css('width') == '0px')
         this.show(settings);
     else this.hide(settings);
 }
 
-VantusJS.prototype.hide = function (settings = {}) {
+; VantusJS.prototype.hide = function (settings = {}) {
     if (Object.keys(settings).length == 0)
         this.css({ 'display': '' });
     else {
@@ -31,7 +31,7 @@ VantusJS.prototype.hide = function (settings = {}) {
     }
 }
 
-VantusJS.prototype.show = function (settings = {}) {
+; VantusJS.prototype.show = function (settings = {}) {
     let elems = this;
     let display = settings.display ? settings.display : settingsShow.display;
     let direction = settings.direction ? settings.direction : settingsShow.direction;

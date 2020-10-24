@@ -1,4 +1,4 @@
-; VantusJS.prototype.ArticleTab = function(){
+; VantusJS.prototype.ArticleTab = function(element = ''){
     let mainelem = this;
     mainelem.children('.v-addArt').event({
         events: ['click'],
@@ -8,15 +8,15 @@
                 let elem;
                 let countactive = mainelem.children('.v-art-title-active').count;
                 if (countactive) {
-                    elem = `<div data-art="${now.getTime()}" class="v-art-title">\
-                                    <span contenteditable="True" class="v-art-text">Пусто</span>\
-                                    <div class="v-art-close">X</div>\
+                    elem = `<div data-art="${now.getTime()}" class="v-art-title">
+                                    <span class="v-art-text">Пусто</span>
+                                    <div class="v-art-close">X</div>
                                 </div>`;
                 }
                 else {
-                    elem = `<div data-art="${now.getTime()}" class="v-art-title-active v-art-title">\
-                                    <span contenteditable="True" class="v-art-text">Пусто</span>\
-                                    <div class="v-art-close">X</div>\
+                    elem = `<div data-art="${now.getTime()}" class="v-art-title-active v-art-title">
+                                    <span class="v-art-text">Пусто</span>
+                                    <div class="v-art-close">X</div>
                                 </div>`;
                 }
                 V(this).put(elem, 'beforeBegin');
@@ -27,9 +27,9 @@
     
     
                 if (countactive)
-                    contentelem = `<div data-gramm="false" style='display: none;' data-art="${now.getTime()}" class="v-contenteditable v-content-art-gr"><div><br></div></div>`;
+                    contentelem = `<div style='display: none;' data-art="${now.getTime()}" class="v-contenteditable v-content-art-gr">${element}</div>`;
                 else
-                    contentelem = `<div data-gramm="false" style='display: block;' data-art="${now.getTime()}" class="v-contenteditable v-content-art-gr"><div><br></div></div>`;
+                    contentelem = `<div style='display: block;' data-art="${now.getTime()}" class="v-contenteditable v-content-art-gr">${element}</div>`;
                 content.put(contentelem, 'afterBegin');
             }
         ]
@@ -40,7 +40,6 @@
         funcs: [
             function () {
                 var id = V(this).parent().attr('data-art');
-                console.log(id);
                 let content = mainelem.children(`div[data-art='${id}']`);
                 content.remove();
             }
@@ -67,7 +66,6 @@
     
                 let main = mainelem.children('.v-art-gr-content');
                 let contentHide = main.children(`div[style='display: block;']`);
-                console.log(contentHide);
                 contentHide.hide();
     
                 let content = main.children(`div[data-art='${id}']`);

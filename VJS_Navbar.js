@@ -16,7 +16,7 @@
     if (navbar == '.v-navbar-2') V(".v-navbar-2-items").Navbar2(speed);
 }
 
-VantusJS.prototype.Navbar2 = function (speed) {
+; VantusJS.prototype.Navbar2 = function (speed) {
     this.event({
         events: ['mouseover', 'mouseout'],
         funcs: [
