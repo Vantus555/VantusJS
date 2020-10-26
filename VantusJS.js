@@ -210,6 +210,19 @@ class VantusJS {
             let htmlCollection = [].slice.call(this.elems[0].children);
             return V(htmlCollection);
         }
+        if (search_class == 'all') {
+            let htmlCollection = [].slice.call(this.elems[0].childNodes);
+            return V(htmlCollection);
+        }
+        if (search_class == 'text') {
+            let htmlCollection = [].slice.call(this.elems[0].childNodes);
+            let arr = [];
+            for (let i = 0; i < htmlCollection.length; i++) {
+                if(htmlCollection[i].nodeType == 3)
+                    arr.push(htmlCollection[i]);
+            }
+            return V(arr);
+        }
         else {
             let arr = []
             for (let i = 0; i < this.elems.length; i++) {
@@ -224,24 +237,59 @@ class VantusJS {
 
     put(what, how) {
         if (what != 0) {
-            if (how == 'append')
-                this.elems.forEach(element => { element.append(what); });
-            if (how == 'prepend')
-                this.elems.forEach(element => { element.prepend(what); });
-            if (how == 'before')
-                this.elems.forEach(element => { element.before(what); });
-            if (how == 'after')
-                this.elems.forEach(element => { element.after(what); });
-            if (how == 'replace')
-                this.elems.forEach(element => { element.replaceWith(what); });
-            if (how == 'beforeBegin')
+            if (how == 'append'){
+                if(what instanceof VantusJS){
+                    this.elems.forEach(element => { 
+                        what.for((index, elem, mass) => {
+                            element.append(mass[index]);
+                            return true;
+                        })
+                    });
+                }
+                else this.elems.forEach(element => { element.append(what); });
+            }
+            else if (how == 'prepend'){
+                if(what instanceof VantusJS){
+                    this.elems.forEach(element => { 
+                        what.for((index, elem, mass) => {
+                            element.prepend(mass[index]); 
+                            return true;
+                        })
+                    });
+                }
+                else this.elems.forEach(element => { element.prepend(what); });
+            }
+            else if (how == 'before'){
+                if(what instanceof VantusJS){
+                    this.elems.forEach(element => { 
+                        what.for((index, elem, mass) => {
+                            element.before(mass[index]); 
+                            return true;
+                        })
+                    });
+                }
+                else this.elems.forEach(element => { element.before(what); });
+            }
+            else if (how == 'after'){
+                if(what instanceof VantusJS){
+                    this.elems.forEach(element => { 
+                        what.for((index, elem, mass) => {
+                            element.after(mass[index]); 
+                            return true;
+                        })
+                    });
+                }
+                else this.elems.forEach(element => { element.after(what); });
+            }
+            else if (how == 'replace'){
+                if(what instanceof VantusJS){
+
+                }
+                else this.elems.forEach(element => { element.replaceWith(what); });
+            }
+            else {
                 this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
-            if (how == 'afterBegin')
-                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
-            if (how == 'beforeEnd')
-                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
-            if (how == 'afterEnd')
-                this.elems.forEach(element => { element.insertAdjacentHTML(how, what); });
+            }
         }
     }
 
@@ -318,7 +366,7 @@ class VantusJS {
 
     nextElement() {
         let next = this.elems[0].nextElementSibling;
-        if(prev == null)
+        if(next == null)
             return false;
         return V(this.elems[0].nextElementSibling);
     }
@@ -330,10 +378,10 @@ class VantusJS {
         return V(this.elems[0].previousElementSibling);
     }
 
-    createElem(str) {
+    static createElement(str) {
         let elem = V(document.createElement('div'));
         elem.html(str);
-        return new VantusJS(elem.html());
+        return elem.children();
     }
 
     tagName() {
